@@ -5,6 +5,9 @@ let products = [
     { id: 2, name: "محصول إثيوبيا - 250g", price: 5.0, img: "https://via.placeholder.com/150" }
 ];
 
+// 🔗 رابط الـ Webhook الخاص بقناتك
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1393661139486216263/fRneK4Jz729aU4_1q91gI34qfR_N5QO3k_zE2oA4qR1-xX9Y_8_wZ";
+
 function loginUser() {
     const email = document.getElementById('loginEmail').value;
     const pass = document.getElementById('loginPass').value;
@@ -79,7 +82,49 @@ function addPromoCodeByAdmin() {
     alert(`تم حفظ كود الخصم: ${code} بنسبة ${discount}%`);
 }
 
-function checkoutOrder() {
+// 🚀 إرسال الطلب عبر الـ Webhook
+async function checkoutOrder() {
     if (cart.length === 0) return alert("السلة فارغة!");
-    alert("تم إرسال الطلب بنجاح! (يمكنك ربطه بالـ Webhook الخاص بالديسكورد)");
+
+    let totalPrice = 0;
+    let itemsList = "";
+
+    cart.forEach((item, index) => {
+        totalPrice += item.price;
+        itemsList += `${index + 1}. **${item.name}** - ${item.price.toFixed(3)} د.ك\n`;
+    });
+
+    const payload = {
+        username: "Lora Coffee",
+        avatar_url: "https://cdn-icons-png.flaticon.com/512/2935/2935413.png",
+        embeds: [{
+            title: "☕ طلب جديد من موقع محمصة لورا",
+            color: 3066993,
+            fields: [
+                { name: "👤 البريد الإلكتروني", value: currentUser ? currentUser.email : "زائر", inline: true },
+                { name: "💰 المجموع الكلي", value: `${totalPrice.toFixed(3)} د.ك`, inline: true },
+                { name: "📦 عناصر الطلب", value: itemsList }
+            ],
+            timestamp: new Date().toISOString()
+        }]
+    };
+
+    try {
+        const response = await fetch(DISCORD_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            alert("تم إرسال طلبك بنجاح! 🎉");
+            cart = [];
+            document.getElementById('cartCount').innerText = "0";
+        } else {
+            alert("حدث خطأ أثناء إرسال الطلب إلى الـ Webhook.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("تعذر الإرسال، تأكد من الاتصال بالإنترنت.");
+    }
 }
