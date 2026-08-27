@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محمصة لورا | l’ORA roastery</title>
+    <style>
+        :root {
+            --bg-navy: #1f274a;
+            --btn-blue: #2c385e;
+            --accent-blue: #64b5f6;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --price-old: #a0a0a0;
+            --badge-red: #e53935;
+            --badge-green: #2e7d32;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: var(--text-main);
+        }
+
+        .announcement-bar {
+            background-color: #151b33;
+            color: #d1d5db;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.85rem;
+        }
+
+        header {
+            background-color: var(--bg-navy);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box {
+            background-color: #83b3c0;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-box span.flower {
+            color: #fbc02d;
+            font-size: 1.2rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-google {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-google:hover {
+            background-color: #357ae8;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            position: relative;
+            font-weight: bold;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-blue);
+            margin: 8px auto 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .category-card {
+            position: relative;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.55);
+        }
+
+        .category-card span {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 8px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--badge-red);
+            color: white;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #e8f5e9;
+            color: var(--badge-green);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .option-select {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            background-color: #fafafa;
+        }
+
+        .price-container {
+            margin: 10px 0;
+        }
+
+        .price-current {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--bg-navy);
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--price-old);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .btn-view {
+            background-color: var(--btn-blue);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .contact-section {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            background-color: var(--bg-navy);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .review-card {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .stars {
+            color: #fbc02d;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        ☕ توصيل مجاني للطلبات الكبيرة | تحميص طازج يومياً في محمصة لورا
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-box">
+                LORA <span class="flower">✿</span> COFFEE
+            </div>
+            <span>محمصة لورا | l’ORA roastery</span>
+        </div>
+        <div class="header-actions">
+            <div id="authContainer">
+                <button class="btn-google" onclick="loginWithGoogle()">التسجيل بواسطة Google</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- التصنيفات -->
+        <div class="section-title">التصنيفات</div>
+        <div class="grid">
+            <div class="category-card" style="background-image: url('arabic-coffee.jpg');">
+                <span>قهوة عربية</span>
+            </div>
+            <div class="category-card" style="background-image: url('turkish-coffee.jpg');">
+                <span>قهوة تركية</span>
+            </div>
+            <div class="category-card" style="background-image: url('espresso.jpg');">
+                <span>إسبرسو</span>
+            </div>
+            <div class="category-card" style="background-image: url('bestseller.jpg');">
+                <span>الأكثر مبيعاً</span>
+            </div>
+        </div>
+
+        <!-- أنواع القهوة -->
+        <div class="section-title">أنواع القهوة</div>
+        <div class="grid">
+            <div class="product-card">
+                <span class="stock-badge">متوفر</span>
+                <img src="arabic-bag.png" class="product-img" alt="قهوة عربية">
+                <div class="product-title">قهوة عربية (Arabic Coffee)</div>
+                <div class="product-desc">تحميص هوائي مميز، جودة مختصة ومصادر موثوقة</div>
+                <select class="option-select">
+                    <option>نوع الطحن: حبوب كاملة</option>
+                    <option>نوع الطحن: مطحونة للقهوة العربية</option>
+                </select>
+                <div class="price-container">
+                    <span class="price-current">6.500 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('قهوة عربية', '6.500 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <span class="stock-badge">متوفر</span>
+                <img src="turkish-bag.png" class="product-img" alt="قهوة تركية">
+                <div class="product-title">قهوة تركية (Turkish Coffee)</div>
+                <div class="product-desc">تحميص هوائي ناعم لإعداد أطيب فنجان قهوة تركية</div>
+                <select class="option-select">
+                    <option>نوع الطحن: مطحونة تركية ناعمة</option>
+                    <option>نوع الطحن: حبوب كاملة</option>
+                </select>
+                <div class="price-container">
+                    <span class="price-current">6.000 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('قهوة تركية', '6.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+        </div>
+
+        <!-- الاشتراكات والباقات -->
+        <div class="section-title">الاشتراكات والباقات</div>
+        <div class="grid">
+            <div class="product-card">
+                <span class="discount-badge">-20%</span>
+                <img src="classic-bundle.png" class="product-img" alt="الباقة الكلاسيكية">
+                <div class="product-title">الباقة الكلاسيكية</div>
+                <div class="product-desc">مجموعة كلاسيكية لتجربة القهوة الممتازة</div>
+                <div class="price-container">
+                    <span class="price-current">14.600 د.ك</span>
+                    <span class="price-old">18.250</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('الباقة الكلاسيكية', '14.600 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <span class="discount-badge">-25%</span>
+                <img src="fruity-bundle.png" class="product-img" alt="الباقة الفاكهية">
+                <div class="product-title">الباقة الفاكهية</div>
+                <div class="product-desc">إيحاءات فاكهية مميزة لعشاق القهوة المختصة</div>
+                <div class="price-container">
+                    <span class="price-current">17.250 د.ك</span>
+                    <span class="price-old">23.000</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('الباقة الفاكهية', '17.250 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <span class="discount-badge">-33.33%</span>
+                <img src="morning-subscription.png" class="product-img" alt="اشتراك جرعة الصباح">
+                <div class="product-title">اشتراك جرعة الصباح</div>
+                <div class="product-desc">اشترك بـ 4 كيلو من قهوتك المفضلة شهرياً</div>
+                <div class="price-container">
+                    <span class="price-current">38.000 د.ك</span>
+                    <span class="price-old">57.000</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('اشتراك جرعة الصباح', '38.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <span class="discount-badge">-40%</span>
+                <img src="diwaniya-subscription.png" class="product-img" alt="اشتراك الديوانية">
+                <div class="product-title">اشتراك الديوانية</div>
+                <div class="product-desc">توفير شامل لخدمة الضيافة والديوانية</div>
+                <div class="price-container">
+                    <span class="price-current">96.000 د.ك</span>
+                    <span class="price-old">160.000</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('اشتراك الديوانية', '96.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+        </div>
+
+        <!-- ماكينات القهوة -->
+        <div class="section-title">ماكينات القهوة</div>
+        <div class="grid">
+            <div class="product-card">
+                <img src="jura-ena4.png" class="product-img" alt="Jura ENA4">
+                <div class="product-title">Jura ENA4 Full Metropolitan Black</div>
+                <div class="product-desc">ماكينة مدمجة وأنيقة لإعداد الإسبرسو</div>
+                <div class="price-container">
+                    <span class="price-current">305.000 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('Jura ENA4', '305.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <img src="jura-ena8.png" class="product-img" alt="Jura ENA8">
+                <div class="product-title">Jura ENA8 Full Metropolitan Black</div>
+                <div class="product-desc">تجربة تحضير متكاملة بلمسة واحدة</div>
+                <div class="price-container">
+                    <span class="price-current">430.000 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('Jura ENA8', '430.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <img src="jura-e8.png" class="product-img" alt="Jura E8">
+                <div class="product-title">Jura E8 Piano Black (INTA)</div>
+                <div class="product-desc">أحدث إصدارات Jura للأداء الاحترافي</div>
+                <div class="price-container">
+                    <span class="price-current">550.000 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('Jura E8', '550.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+
+            <div class="product-card">
+                <img src="jura-z10.png" class="product-img" alt="Jura Z10">
+                <div class="product-title">Jura Z10 Diamond Black INTA</div>
+                <div class="product-desc">القمة في إعداد القهوة الباردة والحارة</div>
+                <div class="price-container">
+                    <span class="price-current">940.000 د.ك</span>
+                </div>
+                <button class="btn-view" onclick="sendOrder('Jura Z10', '940.000 د.ك')">طلب عبر واتساب</button>
+            </div>
+        </div>
+
+        <!-- تقييم العملاء -->
+        <div class="section-title">تقييم العملاء</div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <strong>عبدالله الشمري</strong>
+                <p>القهوة العربية طعمها متناسق وتحميص هوائي ممتاز، وااشتراك الصباح يوفر وايد.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <strong>فهد العتيبي</strong>
+                <p>ماكينة Jura E8 وصلت بنفس اليوم والتعامل احترافي جداً.</p>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <strong>سارة علي</strong>
+                <p>الباقة الفاكهية ممتازة للتقطير، الإيحاءات واضحة ولذيذة.</p>
+            </div>
+        </div>
+
+        <!-- تواصل معنا والأستبيان -->
+        <div class="section-title">تواصل معنا / الاستبيان</div>
+        <div class="contact-section">
+            <form action="mailto:naser.alsulaiti@icloud.com" method="post" enctype="text/plain">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" name="Name" required placeholder="أدخل اسمك الكريم">
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" name="Phone" required placeholder="أدخل رقم الهاتف">
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" name="Email" required placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label>الموضوع / الاستبيان</label>
+                    <textarea name="Message" rows="5" required placeholder="اكتب استفسارك أو ملاحظاتك..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">إرسال الرسالة إلى naser.alsulaiti@icloud.com</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- مكتبات Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // 1. ضع بيانات Firebase الخاصة بك هنا عند استخراجها
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        // 2. تم وضع رابط Webhook الديسكورد المباشر الخاص بك
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
+
+        function loginWithGoogle() {
+            auth.signInWithPopup(provider).then((result) => {
+                const user = result.user;
+                
+                // تحديث الواجهة لعرض صورة المستخدم واسمه
+                document.getElementById('authContainer').innerHTML = `
+                    <div class="user-profile">
+                        <img src="${user.photoURL}" class="user-avatar" alt="${user.displayName}">
+                        <span>${user.displayName}</span>
+                    </div>
+                `;
+
+                // إرسال الإشعار إلى ديسكورد
+                sendDiscordNotification(user.displayName, user.email, user.photoURL);
+
+            }).catch((error) => {
+                console.error("خطأ في تسجيل الدخول:", error);
+            });
+        }
+
+        function sendDiscordNotification(name, email, photo) {
+            const payload = {
+                embeds: [{
+                    title: "📥 تسجيل دخول جديد في الموقع",
+                    color: 3447003,
+                    fields: [
+                        { name: "الاسم", value: name, inline: true },
+                        { name: "الإيميل", value: email, inline: true }
+                    ],
+                    thumbnail: { url: photo },
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        function sendOrder(productName, price) {
+            let phone = "965XXXXXXXX"; // ضع رقم واتساب الخاص بك هنا
+            let message = `السلام عليكم، أرغب بطلب:\nالمنتج: ${productName}\nالسعر: ${price}`;
+            window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
