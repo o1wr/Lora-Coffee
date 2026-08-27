@@ -66,15 +66,22 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .cart-status {
+        .cart-status, .auth-btn-header {
             background: #ffffff22;
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
+            border: none;
+            color: white;
+            font-family: inherit;
+        }
+
+        .auth-btn-header:hover, .cart-status:hover {
+            background: #ffffff33;
         }
 
         .container {
@@ -303,11 +310,6 @@
             transition: all 0.2s ease;
         }
 
-        .payment-card:hover:not(.disabled) {
-            border-color: var(--accent-blue);
-            background-color: #f0f7ff;
-        }
-
         .payment-card.active {
             border-color: var(--bg-navy);
             background-color: #f0f4f8;
@@ -346,7 +348,7 @@
             margin-bottom: 15px;
         }
 
-        /* تنسيقات صفحة النجاح */
+        /* صفحة النجاح */
         .success-box {
             text-align: center;
             padding: 10px 0;
@@ -370,7 +372,47 @@
             font-weight: bold;
             color: var(--bg-navy);
             margin: 10px 0;
-            letter-spacing: 1px;
+        }
+
+        /* التبديل بين الدخول والتسجيل */
+        .auth-toggle-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .auth-tab.active {
+            color: var(--bg-navy);
+            border-bottom: 3px solid var(--bg-navy);
+        }
+
+        .btn-guest {
+            background-color: transparent;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            width: 100%;
+            padding: 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn-guest:hover {
+            background-color: #f1f5f9;
         }
 
         footer {
@@ -396,6 +438,7 @@
             <span>محمصة لورا</span>
         </div>
         <div class="header-actions">
+            <button id="userAuthBtn" class="auth-btn-header" onclick="openAuthModal()">👤 تسجيل دخول</button>
             <div class="cart-status" onclick="toggleCartModal()">🛒 السلة (<span id="cartCount">0</span>)</div>
         </div>
     </header>
@@ -480,6 +523,50 @@
 
     </div>
 
+    <!-- نافذة تسجيل الدخول وانشاء حساب -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('authModal')">✕</button>
+            
+            <div class="auth-toggle-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="switchAuthMode('login')">تسجيل الدخول</button>
+                <button class="auth-tab" id="tabRegister" onclick="switchAuthMode('register')">إنشاء حساب جديد</button>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="loginEmail" required placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور (الباسورد)</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-add" style="margin-top: 10px;">تسجيل الدخول</button>
+                <button type="button" class="btn-guest" onclick="continueAsGuest()">متابعة كـ مشاهد (تصفح فقط)</button>
+            </form>
+
+            <!-- نموذج إنشاء حساب -->
+            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" id="regEmail" required placeholder="example@domain.com">
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" id="regPhone" required placeholder="90000000">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور (الباسورد)</label>
+                    <input type="password" id="regPassword" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn-add" style="margin-top: 10px;">إنشاء حساب جديد</button>
+                <button type="button" class="btn-guest" onclick="continueAsGuest()">متابعة كـ مشاهد (تصفح فقط)</button>
+            </form>
+        </div>
+    </div>
+
     <!-- نافذة السلة والعنوان وطرق الدفع -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
@@ -508,7 +595,7 @@
                                 <option value="حولي">حولي</option>
                                 <option value="الفروانية">الفروانية</option>
                                 <option value="الأحمدي">الأحمدي</option>
-                                <option value="الجهة">الجهراء</option>
+                                <option value="الجهراء">الجهراء</option>
                                 <option value="مبارك الكبير">مبارك الكبير</option>
                             </select>
                         </div>
@@ -550,7 +637,7 @@
                 <h3 style="text-align: center; margin-top: 0;">اختر طريقة الدفع</h3>
                 
                 <div class="payment-options">
-                    <!-- كي نت (غير متوفرة) -->
+                    <!-- كي نت -->
                     <div class="payment-card disabled">
                         <div class="payment-info">
                             <input type="radio" disabled name="payment_method">
@@ -567,7 +654,7 @@
                         </div>
                     </div>
 
-                    <!-- فيزا وماستر كارد (غير متوفرة حالياً) -->
+                    <!-- فيزا وماستر كارد -->
                     <div class="payment-card disabled">
                         <div class="payment-info">
                             <input type="radio" disabled name="payment_method">
@@ -580,7 +667,7 @@
                 <button type="button" class="btn-add" onclick="checkoutOrder()" style="margin-top: 15px;">إتمام الطلب الآن</button>
             </div>
 
-            <!-- الخطوة الثالثة: صفحة التأكيد والنجاح -->
+            <!-- الخطوة الثالثة: صفحة النجاح -->
             <div id="step-success" style="display: none;">
                 <div class="success-box">
                     <div class="success-icon">✓</div>
@@ -610,7 +697,110 @@
         let cart = [];
         let selectedPaymentMethod = "كاش (نقداً عند الاستلام)";
         let tempAddressData = {};
+        let currentUser = null;
 
+        // عند فتح الصفحة لأول مرة
+        window.onload = function() {
+            checkLoggedInUser();
+            if (!currentUser) {
+                openAuthModal();
+            }
+        };
+
+        // إدارة الحسابات
+        function getUsersDB() {
+            return JSON.parse(localStorage.getItem('lora_users_db') || '[]');
+        }
+
+        function saveUsersDB(users) {
+            localStorage.setItem('lora_users_db', JSON.stringify(users));
+        }
+
+        function checkLoggedInUser() {
+            const user = JSON.parse(localStorage.getItem('lora_current_user') || 'null');
+            currentUser = user;
+            const authBtn = document.getElementById('userAuthBtn');
+            if (user) {
+                authBtn.innerText = `👤 ${user.email.split('@')[0]} (خروج)`;
+                authBtn.onclick = handleLogout;
+            } else {
+                authBtn.innerText = `👤 تسجيل دخول / حساب`;
+                authBtn.onclick = openAuthModal;
+            }
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').style.display = 'flex';
+        }
+
+        function switchAuthMode(mode) {
+            if (mode === 'login') {
+                document.getElementById('tabLogin').classList.add('active');
+                document.getElementById('tabRegister').classList.remove('active');
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+            } else {
+                document.getElementById('tabRegister').classList.add('active');
+                document.getElementById('tabLogin').classList.remove('active');
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'none';
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            let users = getUsersDB();
+            if (users.some(u => u.email === email)) {
+                alert('هذا البريد الإلكتروني مسجل مسبقاً!');
+                return;
+            }
+
+            const newUser = { email, phone, password };
+            users.push(newUser);
+            saveUsersDB(users);
+
+            // تسجيل الدخول آلياً
+            localStorage.setItem('lora_current_user', JSON.stringify(newUser));
+            checkLoggedInUser();
+            closeModal('authModal');
+            alert('تم إنشاء الحساب وتسجيل الدخول بنجاح!');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            let users = getUsersDB();
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                localStorage.setItem('lora_current_user', JSON.stringify(user));
+                checkLoggedInUser();
+                closeModal('authModal');
+                alert('تم تسجيل الدخول بنجاح!');
+            } else {
+                alert('البريد الإلكتروني أو كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('هل أنت تأكد من تسجيل الخروج؟')) {
+                localStorage.removeItem('lora_current_user');
+                checkLoggedInUser();
+                alert('تم تسجيل الخروج.');
+            }
+        }
+
+        function continueAsGuest() {
+            closeModal('authModal');
+        }
+
+        // التصفح والتصنيف
         function filterCategory(category, btnElement) {
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
@@ -674,6 +864,15 @@
 
         function goToPaymentStep(e) {
             e.preventDefault();
+
+            // حماية الطلب: منع الطلب إذا لم يسجل دخوله
+            if (!currentUser) {
+                alert('عذراً! يجب تسجيل الدخول أو إنشاء حساب أولاً لإتمام إجراءات الطلب.');
+                closeModal('cartModal');
+                openAuthModal();
+                return;
+            }
+
             if (cart.length === 0) {
                 alert('السلة فارغة!');
                 return;
@@ -710,8 +909,14 @@
         }
 
         function checkoutOrder() {
+            if (!currentUser) {
+                alert('يرجى تسجيل الدخول أولاً!');
+                return;
+            }
+
             const fullAddress = `• المحافظة: ${tempAddressData.governorate}\n• المنطقة: ${tempAddressData.area}\n• القطعة: ${tempAddressData.block}\n• الشارع: ${tempAddressData.street}\n• الجادة: ${tempAddressData.avenue}\n• المنزل: ${tempAddressData.house}`;
-            
+            const userInfo = `• الإيميل: ${currentUser.email}\n• الهاتف: ${currentUser.phone}`;
+
             const currentOrderNum = getNextOrderNumber();
             const orderID = `#${currentOrderNum}`;
 
@@ -726,6 +931,7 @@
                         { name: "🆔 رقم الطلب", value: orderID, inline: true },
                         { name: "💰 المجموع الكلي", value: `${totalSum} د.ك`, inline: true },
                         { name: "💳 طريقة الدفع", value: selectedPaymentMethod, inline: true },
+                        { name: "👤 بيانات العميل", value: userInfo, inline: false },
                         { name: "📍 موقع البيت", value: fullAddress, inline: false },
                         { name: "🛒 قائمة المنتجات", value: itemsList, inline: false }
                     ],
@@ -739,7 +945,6 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                // إظهار صفحة النجاح داخل النافذة
                 document.getElementById('displayOrderNum').innerText = orderID;
                 document.getElementById('displayPaymentMethod').innerText = selectedPaymentMethod;
                 
