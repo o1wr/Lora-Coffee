@@ -491,7 +491,126 @@
             background: var(--accent-blue);
         }
 
-        /* Footer UI (Matching original design) */
+        /* Inline Notification Box */
+        .inline-notice {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin: 15px auto;
+            width: 90%;
+            max-width: 1400px;
+            font-weight: 700;
+            display: none;
+            text-align: center;
+            border: 1px solid #bae6fd;
+        }
+
+        /* Checkout Modal / Section Styling */
+        .checkout-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto 50px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            display: none;
+        }
+
+        .checkout-container h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--accent-cyan);
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .payment-methods-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pay-option {
+            border: 2px solid var(--border-light);
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            position: relative;
+            background: #fff;
+        }
+
+        .pay-option.disabled {
+            border-color: #ef4444;
+            color: #94a3b8;
+            background: #f1f5f9;
+            cursor: not-allowed;
+        }
+
+        .pay-option.disabled::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ef4444;
+            transform: translateY(-50%) rotate(-10deg);
+        }
+
+        .pay-option.active {
+            border-color: var(--accent-blue);
+            background: #eff6ff;
+            color: var(--accent-blue);
+        }
+
+        .submit-order-btn {
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .submit-order-btn:hover {
+            background: #059669;
+        }
+
+        /* Footer UI */
         footer {
             background-color: var(--bg-dark);
             color: #cbd5e1;
@@ -604,7 +723,42 @@
             background: var(--accent-blue);
         }
 
-        /* Responsive Fixes */
+        /* Modal for Survey/Chat */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .hero-quote h2 { font-size: 1.6rem; }
@@ -619,7 +773,7 @@
     <div class="top-bar">
         <div class="top-bar-info">
             <span><i class="fa-solid fa-truck-fast"></i> توصيل سريع لكافة مناطق الكويت</span>
-            <span><i class="fa-solid fa-phone"></i> خدمة العملاء: 90000000</span>
+            <span><i class="fa-solid fa-phone"></i> خدمة العملاء: +965 97114109</span>
         </div>
         <div>
             <span>🇰🇼 د.ك (KWD)</span>
@@ -645,12 +799,15 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" id="searchInput" placeholder="ابحث عن محصول أو آلة..." onkeyup="filterCatalog()">
             </div>
-            <div class="cart-btn" onclick="alert('السلة جاهزة ومصممة لتحمل عدد كبير من المنتجات!')">
+            <div class="cart-btn" onclick="toggleCheckout()">
                 <i class="fa-solid fa-bag-shopping"></i>
                 <span class="cart-badge" id="cartCount">0</span>
             </div>
         </div>
     </header>
+
+    <!-- Inline Notification Box -->
+    <div class="inline-notice" id="inlineNotice"></div>
 
     <!-- Hero Quote -->
     <section class="hero-quote">
@@ -716,9 +873,7 @@
             <a href="#" class="view-all-btn">عرض الكل</a>
         </div>
 
-        <div class="carousel-container" id="espressoContainer">
-            <!-- Rendered via JS dynamically -->
-        </div>
+        <div class="carousel-container" id="espressoContainer"></div>
     </section>
 
     <!-- Coffee Machines Section -->
@@ -728,10 +883,36 @@
             <a href="#" class="view-all-btn">عرض الكل</a>
         </div>
 
-        <div class="carousel-container" id="machinesContainer">
-            <!-- Rendered via JS dynamically -->
-        </div>
+        <div class="carousel-container" id="machinesContainer"></div>
     </section>
+
+    <!-- Checkout / Order Form Section -->
+    <div class="checkout-container" id="checkoutSection">
+        <h3>إتمام الطلب (Checkout)</h3>
+        <form id="orderForm" onsubmit="submitOrder(event)">
+            <div class="form-group">
+                <label>اسم العميل الكريم</label>
+                <input type="text" id="custName" required placeholder="أدخل اسمك الكامل">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" id="custPhone" required placeholder="رقم الهاتف في الكويت">
+            </div>
+            <div class="form-group">
+                <label>العنوان / الموقع بالتفصيل</label>
+                <textarea id="custAddress" required placeholder="المنطقة، القطعة، الشارع، الجادة، المنزل"></textarea>
+            </div>
+            <div class="form-group">
+                <label>طريقة الدفع المختارة</label>
+                <div class="payment-methods-box">
+                    <div class="pay-option disabled">K-NET ❌</div>
+                    <div class="pay-option disabled">VISA / MC ❌</div>
+                    <div class="pay-option active" id="cashOption">💵 الدفع نقداً (Cash)</div>
+                </div>
+            </div>
+            <button type="submit" class="submit-order-btn">تأكيد وإرسال الطلب</button>
+        </form>
+    </div>
 
     <!-- Footer -->
     <footer id="contact">
@@ -740,9 +921,8 @@
                 <h3>LORA COFFEE</h3>
                 <p>2026 Lora Company for Coffee Roasting.<br>شركة لورا لتحميص القهوة - جميع الحقوق محفوظة.</p>
                 <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/lora_coffee/?hl=en" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/96597114109" target="_blank" class="social-icon" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
 
@@ -756,50 +936,61 @@
             <div class="footer-col">
                 <h3>طرق الدفع المتاحة</h3>
                 <div class="payment-methods">
-                    <span class="payment-card"><i class="fa-brands fa-cc-visa"></i> VISA</span>
-                    <span class="payment-card"><i class="fa-brands fa-cc-mastercard"></i> MC</span>
-                    <span class="payment-card" style="background:#00bcd4; color:#fff;">K-NET</span>
-                    <span class="payment-card"><i class="fa-brands fa-apple"></i> Pay</span>
+                    <span class="payment-card" style="background:#10b981; color:#fff;">💵 كاش فقط</span>
                 </div>
             </div>
         </div>
 
         <div class="footer-bottom">
             <span>Powered By OSOSS System</span>
-            <span>تصميم وسرعة فائقة تحمل أعداد كبيرة من المنتجات ⚡</span>
+            <span>لورا كوفي - جميع الحقوق محفوظة ⚡</span>
         </div>
     </footer>
 
     <!-- Floating UI Tools -->
     <div class="floating-controls">
         <a href="#" class="float-btn" title="العودة للأعلى"><i class="fa-solid fa-arrow-up"></i></a>
-        <button class="float-btn" title="محادثة الدعم" onclick="alert('خدمة العملاء متصلة حالياً!')"><i class="fa-solid fa-comments"></i></button>
+        <button class="float-btn" title="محادثة الدعم والاستبيان" onclick="openSurveyModal()"><i class="fa-solid fa-comments"></i></button>
     </div>
 
-    <!-- JavaScript Data Handler (Designed for High Scalability) -->
+    <!-- Survey Modal -->
+    <div class="modal-overlay" id="surveyModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeSurveyModal()">&times;</button>
+            <h3>استبيان خدمة العملاء والدعم</h3>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:15px;">سيتم إرسال رسالتك مباشرة إلى إيميل الشركة: naser.alsulaiti@icloud.com</p>
+            <form onsubmit="submitSurvey(event)">
+                <div class="form-group">
+                    <label>اسمك أو بريدك الإلكتروني</label>
+                    <input type="text" id="surveySender" required placeholder="ادخل اسمك أو ايميلك">
+                </div>
+                <div class="form-group">
+                    <label>رسالتك أو استفسارك</label>
+                    <textarea id="surveyMessage" required rows="4" placeholder="كيف نقدر نساعدك؟"></textarea>
+                </div>
+                <button type="submit" class="submit-order-btn">إرسال الاستبيان</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Data Handler & Functions -->
     <script>
-        // High-scale dataset array (scalable up to thousands of items effortlessly)
         const espressoProducts = [
             { id: 101, name: "حبوب قهوة البرازيل", desc: "Coffee Beans 250g | 1 KG", price: 3.750, oldPrice: 4.500, img: "https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=400", discount: "-16%" },
             { id: 102, name: "حبوب قهوة السلفادور", desc: "Coffee Beans 250g | 1 KG", price: 5.400, oldPrice: 6.000, img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=400", discount: "-10%" },
             { id: 103, name: "حبوب قهوة الصين", desc: "Coffee Beans 250g | 1 KG", price: 6.000, oldPrice: 8.500, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=400", discount: "-29%" },
-            { id: 104, name: "خلطة لورا الفاخرة (Lora Blend)", desc: "Coffee Beans 250g | 1 KG", price: 3.500, oldPrice: 4.500, img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=400", discount: "-22%" },
-            { id: 105, name: "حبوب البرازيل (جامبو 1KG)", desc: "Coffee Beans 1 KG", price: 12.750, oldPrice: 15.000, img: "https://images.unsplash.com/photo-1589396575653-c09c794ff6a6?auto=format&fit=crop&q=80&w=400", discount: "-15%" },
-            { id: 106, name: "حبوب قهوة إثيوبيا همبيلا", desc: "Coffee Beans 250g", price: 4.500, oldPrice: 6.000, img: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=400", discount: "-25%" },
-            { id: 107, name: "الباقة الفاكهية (Fruity Bundle)", desc: "Fruity 3 Bags Selected", price: 17.250, oldPrice: 23.000, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=400", discount: "-25%" }
+            { id: 104, name: "خلطة لورا الفاخرة (Lora Blend)", desc: "Coffee Beans 250g | 1 KG", price: 3.500, oldPrice: 4.500, img: "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=400", discount: "-22%" }
         ];
 
         const machineProducts = [
-            { id: 201, name: "Jura ENA8 Full Metropolitan Black", desc: "The compact JURA ENA 8 combines a Professional...", price: 430.000, oldPrice: null, img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=400" },
-            { id: 202, name: "Jura Z10 Diamond Black INTA", desc: "The JURA Z10 is a premium Swiss-engineered...", price: 940.000, oldPrice: null, img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&q=80&w=400" },
-            { id: 203, name: "Jura ENA8 Full Metropolitan White", desc: "توفر المحمصة آلات ذات جودة سويسرية عالية...", price: 430.000, oldPrice: null, img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=400" },
-            { id: 204, name: "Jura E8 Piano Black (INTA)", desc: "The latest JURA E8 brings premium-class tech...", price: 550.000, oldPrice: null, img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&q=80&w=400" },
-            { id: 205, name: "Jura J8 TWIN Diamond Black", desc: "The JURA J8 Twin features two high-performance...", price: 865.000, oldPrice: null, img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=400" }
+            { id: 201, name: "Jura J8 TWIN Diamond Black", desc: "آلة إسبريسو احترافية ثنائية الطحن", price: 865.000, oldPrice: null, img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&q=80&w=400" },
+            { id: 202, name: "Jura E8 Piano Black", desc: "الأداء الفاخر والتصميم العصري السويسري", price: 550.000, oldPrice: null, img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&q=80&w=400" },
+            { id: 203, name: "Jura ENA8 Metropolitan White", desc: "صغيرة الحجم فائقة الجودة للمنزل والمكتب", price: 430.000, oldPrice: null, img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=400" },
+            { id: 204, name: "Jura Z10 Diamond Black", desc: "تحضير قهوة ساخنة وباردة بذكاء اصطناعي", price: 940.000, oldPrice: null, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&q=80&w=400" }
         ];
 
-        let cartCount = 0;
+        let cart = [];
 
-        // Render Carousel Data
         function renderCarousel(list, targetId) {
             const container = document.getElementById(targetId);
             container.innerHTML = list.map(item => `
@@ -814,15 +1005,35 @@
                             ${item.oldPrice ? `<span class="price-old">${item.oldPrice.toFixed(3)} KD</span>` : ''}
                             <span class="price-current">${item.price.toFixed(3)} KD</span>
                         </div>
-                        <button class="btn-view" onclick="addToCart()">عرض</button>
+                        <button class="btn-view" onclick='addToCart(${JSON.stringify(item)})'>أضف للطلب</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function addToCart() {
-            cartCount++;
-            document.getElementById('cartCount').innerText = cartCount;
+        function addToCart(item) {
+            cart.push(item);
+            document.getElementById('cartCount').innerText = cart.length;
+            showNotice(`تمت إضافة "${item.name}" إلى سلة الطلبات بنجاح! 🛒`);
+        }
+
+        function showNotice(msg) {
+            const notice = document.getElementById('inlineNotice');
+            notice.innerText = msg;
+            notice.style.display = 'block';
+            setTimeout(() => {
+                notice.style.display = 'none';
+            }, 4000);
+        }
+
+        function toggleCheckout() {
+            if(cart.length === 0) {
+                showNotice('سلة الطلبات فارغة! الرجاء إضافة منتج واحد على الأقل قبل إتمام الطلب.');
+                return;
+            }
+            const section = document.getElementById('checkoutSection');
+            section.style.display = section.style.display === 'block' ? 'none' : 'block';
+            section.scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleFav(btn) {
@@ -846,7 +1057,60 @@
             renderCarousel(filteredMachines, 'machinesContainer');
         }
 
-        // Fast initial loading
+        function openSurveyModal() {
+            document.getElementById('surveyModal').style.display = 'flex';
+        }
+
+        function closeSurveyModal() {
+            document.getElementById('surveyModal').style.display = 'none';
+        }
+
+        function submitSurvey(e) {
+            e.preventDefault();
+            const sender = document.getElementById('surveySender').value;
+            const message = document.getElementById('surveyMessage').value;
+            closeSurveyModal();
+            showNotice(`شكراً لك ${sender}! تم إرسال استبيانك واستفسارك بنجاح إلى شركة لورا (naser.alsulaiti@icloud.com).`);
+            document.getElementById('surveySender').value = '';
+            document.getElementById('surveyMessage').value = '';
+        }
+
+        function submitOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const address = document.getElementById('custAddress').value;
+            
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const orderId = `#ORD-2026-${randomNum}`;
+            
+            const totalPrice = cart.reduce((sum, item) => sum + item.price, 0).toFixed(3);
+            const itemsList = cart.map(i => `${i.name} (${i.price} KD)`).join(', ');
+
+            // Discord Webhook payload
+            const webhookUrl = "https://discord.com/api/webhooks/1542554021510774814/kURM7_KSoI1f6-7rEopGSwzjQ26KJY_-OW9DTkvAiofOUms2wrsWr-BO2d7slwCs52j5";
+            const payload = {
+                content: `🚨 **طلب جديد وصل عبر المتجر!** ${orderId}\n` +
+                         `👤 **العميل:** ${name}\n` +
+                         `📞 **رقم الهاتف:** ${phone}\n` +
+                         `📍 **الموقع:** ${address}\n` +
+                         `🛍️ **المنتجات:** ${itemsList}\n` +
+                         `💰 **المجموع الكلي:** ${totalPrice} KD (طريقة الدفع: كاش 💵)`
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log('Webhook sent error ignored'));
+
+            showNotice(`تم استلام طلبك بنجاح! رقم طلبك هو ${orderId} وسيتم التواصل معك قريباً.`);
+            document.getElementById('checkoutSection').style.display = 'none';
+            cart = [];
+            document.getElementById('cartCount').innerText = '0';
+            document.getElementById('orderForm').reset();
+        }
+
         window.onload = () => {
             renderCarousel(espressoProducts, 'espressoContainer');
             renderCarousel(machineProducts, 'machinesContainer');
